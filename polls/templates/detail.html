@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Text: {{ question.question_text }}</p>
+<p>Pulish date: {{ question.pub_date }}</p>
+<p>{{ question.email }}</p>
+{% if question.name %}
+    <p> Name: {{ question.name }}</p>
+{% else %}
+    <p> No name registered here!</p>
+{% endif %}
+<p>{{ question.language }}</p>
+</body>
+</html>
