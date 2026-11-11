@@ -11,7 +11,7 @@ class Question(models.Model):
                                          ("fa", "Farsi"),
                                          ("ar", "Arabic"),])
     name = models.CharField(max_length=200, null=True, blank=True, help_text="Name of asking person")
-    picture = models.ImageField(upload_to="polls/pictures",null=True,blank=True,)
+    # picture = models.ImageField(upload_to="polls/pictures",null=True,blank=True,)
 
     def __str__(self):
         return self.question_text
