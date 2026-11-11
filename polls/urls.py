@@ -7,4 +7,6 @@ urlpatterns = [
     path("<int:pk>/",views.QuestionDetailView.as_view(), name="detail"),
     path("success/", views.SuccessView.as_view(), name="success"),
     path("login/", views.RedirectQuestionView.as_view(), name="login"),
+    path("new/", views.NewQuestionView.as_view(), name="new"),
+    path("new2/", views.NewQuestionView2.as_view(), name="new2"),
 ]

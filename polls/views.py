@@ -1,8 +1,9 @@
 from django.http import HttpResponse, Http404
+from django.shortcuts import render
 from django.template import loader
 from django.views import View
 from django.views.decorators.http import require_http_methods
-from django.views.generic import ListView, TemplateView, DetailView, RedirectView
+from django.views.generic import ListView, TemplateView, DetailView, RedirectView, CreateView
 
 from polls.models import Question
 
@@ -17,10 +18,15 @@ def index(request):
 class IndexView(ListView):
     model = Question
     context_object_name = "questions"
+    template_name = "index.html"
 
 class SuccessView(TemplateView):
     template_name = "success.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(SuccessView, self).get_context_data(**kwargs)
+        context["app_name"] = "Polls"
+        return context
 
 
 # @require_http_methods(["GET"])
@@ -41,5 +47,20 @@ class RedirectQuestionView(RedirectView):
     permanent = True
     pattern_name = 'success'
 
-def test_view(request):
-    return HttpResponse("hello")
+class NewQuestionView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "new_question.html")
+
+    def post(self, request, *args, **kwargs):
+        q = Question(
+            question_text=request.POST.get("question_text"),
+            pub_date=request.PlanguageOST.get("pub_date"),
+        )
+        q.save()
+        return HttpResponse("Thank you for your question.")
+
+class NewQuestionView2(CreateView):
+    model = Question
+    fields = ["question_text", "pub_date", "language"]
+    template_name = "new_question2.html"
+    success_url = '/polls/success/'
