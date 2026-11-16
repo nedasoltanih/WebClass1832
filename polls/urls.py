@@ -9,4 +9,5 @@ urlpatterns = [
     path("login/", views.RedirectQuestionView.as_view(), name="login"),
     path("new/", views.NewQuestionView.as_view(), name="new"),
     path("new2/", views.NewQuestionView2.as_view(), name="new2"),
+    path("vote/<int:pk>/", views.VoteView.as_view(), name="vote"),
 ]

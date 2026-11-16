@@ -5,7 +5,8 @@ from django.views import View
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, TemplateView, DetailView, RedirectView, CreateView
 
-from polls.models import Question
+from polls.models import Question, Choice
+
 
 def index(request):
     questions = Question.objects.all()
@@ -43,6 +44,11 @@ class SuccessView(TemplateView):
 class QuestionDetailView(DetailView):
     model = Question
 
+    def get_context_data(self, **kwargs):
+        context = super(QuestionDetailView, self).get_context_data(**kwargs)
+        context["choices"] = context["object"].choice_set.all()
+        return context
+
 class RedirectQuestionView(RedirectView):
     permanent = True
     pattern_name = 'success'
@@ -64,3 +70,11 @@ class NewQuestionView2(CreateView):
     fields = ["question_text", "pub_date", "language"]
     template_name = "new_question2.html"
     success_url = '/polls/success/'
+
+class VoteView(View):
+    def get(self, request, *args, **kwargs):
+        choice_id = kwargs.get("pk")
+        choice = Choice.objects.get(pk=choice_id)
+        choice.votes += 1
+        choice.save()
+        return HttpResponse("Thank you for your vote.")

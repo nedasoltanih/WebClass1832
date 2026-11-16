@@ -6,7 +6,7 @@
 </head>
 <body>
 <p>this is a DetailView</p>
-<p>Text: {{ question.question_text }}</p>
+<p>Text: {{ question.question_text.upper }}</p>
 <p>Pulish date: {{ question.pub_date }}</p>
 <p>{{ question.email }}</p>
 {% if question.name %}
@@ -15,5 +15,14 @@
     <p> No name registered here!</p>
 {% endif %}
 <p>{{ question.language }}</p>
+<ul>
+{% for choice in choices %}
+    <li><a href="/polls/vote/{{ choice.pk }}/">
+        {{ choice.choice_text }}</a>
+    </li>
+{% empty %}
+    <p>No choices!</p>
+{% endfor %}
+</ul>
 </body>
 </html>
